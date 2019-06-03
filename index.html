@@ -1,0 +1,126 @@
+<html lang="en-us">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>crystal-game</title>
+        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <style>
+      .crystal-image{
+        margin: 3%;
+      }
+      .guess{
+        color: black;
+        font-size: 50px;
+        font-weight: bolder;
+        height: 220px;
+        padding-left: 200px;
+        padding-top: 70px;
+      }
+
+    </style>
+    <body >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-dark guess" id ="number-to-guess" role="alert"></div>
+                </div>
+                <div class="col-6">
+                        <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="alert alert-dark " id ="wins" role="alert"><h4>Wins:</h4></div>
+                                </div>
+                        </div>
+                        <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="alert alert-dark " id ="losses" role="alert"><h4>Losses:</h4></div>
+                                </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="alert alert-secondary justify-content-center"id ="crystals" role="alert"></div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="alert alert-info justify-content-center" id ="score" role="alert"></div>
+                    </div>
+            </div>
+        </div>
+                <script>
+
+//-----------------------primery win----------------------------------------------------
+                        var counterWin = $("<p>"); 
+                        counterWin.text("0");
+                        $("#wins").append(counterWin);
+//-----------------------primery loss-----------------------------------------------------
+                        var counterLoss= $("<p>");
+                        counterLoss.text("0");
+                        $("#losses").append(counterLoss);
+//----------------------------variable-------------------------------------------------------
+                        var wins=0;
+                        var losses=0;
+                        var counter = 0;
+                        var targetNumber =Math.floor(Math.random() * 80)+20;
+
+//-------------------- new game---------------------------------------
+                      function restart(){
+                          //-------number--------------
+                         targetNumber =Math.floor(Math.random() * 80)+20;
+                        console.log("num: " ,targetNumber)
+                        $("#number-to-guess").text(targetNumber); 
+                        //---------image---------------------                       
+                        var numberOptions = [10, 5, 3, 7];                 
+                        $("#crystals").empty();
+                        for (var i = 0; i < numberOptions.length; i++) {
+                        var Number =numberOptions[Math.floor(Math.random() * numberOptions.length)];
+                        var imageCrystal = $("<img>");
+                        imageCrystal.addClass("crystal-image rounded ");
+                        imageCrystal.attr("src", "./crystal-img.png");
+                        imageCrystal.attr("data-crystalvalue", numberOptions[i]);
+                        $("#crystals").append(imageCrystal);
+                        }
+                        //------score-------------
+                        $("#score").empty();
+                        counter=0;
+                        
+                   
+
+                   
+                   
+//--------------------main function-----------------------------------------------------------------
+                        
+                        $(".crystal-image").on("click", function keyEvent() {
+                        var crystalValue = ($(this).attr("data-crystalvalue"));
+                        crystalValue = parseInt(crystalValue);
+                        counter += crystalValue;
+                        var score = $("<p>"); 
+                            $("#score").text(counter);
+                            $("#score").append(score);
+                        
+
+                        if (counter === targetNumber) {
+                        wins++;
+                        counterWin.text(wins);
+                        restart();
+                        console.log(wins)    
+                        }
+                        else if (counter >= targetNumber) {
+                            losses++;
+                            counterLoss.text(losses);
+                            restart();
+                            console.log(losses)
+                        }
+                    });
+                }
+                restart();
+                
+                       
+            </script>
+        </body>
+</html>
